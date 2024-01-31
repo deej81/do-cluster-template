@@ -8,7 +8,7 @@ terraform {
 }
 
 resource "digitalocean_project" "project" {
-  name = "ProjectName"
+  name = "{{project_name}}"
   resources = concat(
     [
       module.bastion_server.bastion_urn,
