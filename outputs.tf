@@ -1,0 +1,24 @@
+output "server_droplet_ips" {
+  value = module.cluster_infrastructure.server_droplet_ips
+}
+
+output "ingres_private_ip" {
+  value = module.cluster_infrastructure.ingress_droplet_ip
+}
+
+output "postgres_cluster_ip" {
+  value = module.cluster_infrastructure.postgres_cluster_ip
+}
+
+output "postgres_cluster_port" {
+  value = module.cluster_infrastructure.postgres_cluster_port
+}
+
+output "postgres_cluster_user" {
+  value = module.cluster_infrastructure.postgres_cluster_user
+}
+
+output "postgres_cluster_password" {
+  value = module.cluster_infrastructure.postgres_cluster_password
+  sensitive = true
+}

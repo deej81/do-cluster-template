@@ -1,0 +1,43 @@
+resource "vault_database_secret_backend_connection" "postgres" {
+  backend           = vault_mount.db.path
+  name              = "postgres"
+  allowed_roles     = ["*"]
+  verify_connection = true
+
+  postgresql {
+    connection_url = format("postgresql://{{username}}:{{password}}@%s:%d/postgres?sslmode=require", var.postgres_ip, var.postgres_port)
+    username = var.db_username
+  }
+
+  data = {
+    username = var.db_username
+    password = var.db_password
+  }
+}
+
+# resource "null_resource" "rotate_pg_root_key" {
+#   provisioner "local-exec" {
+#     command = "vault write -force ${vault_mount.db.path}/rotate-root/${vault_database_secret_backend_connection.postgres.name}"
+#   }
+#   depends_on = [
+#     vault_database_secret_backend_connection.postgres,
+#     vault_database_secret_backend_connection.ghostfolio,
+#   ]
+# }
+
+resource "vault_database_secret_backend_role" "role" {
+  backend     = vault_mount.db.path
+  name        = "my-role"
+  db_name     = vault_database_secret_backend_connection.postgres.name
+  default_ttl = 1800
+  max_ttl     = 7200
+  //   CREATE USER "{{name}}" WITH ENCRYPTED PASSWORD '{{password}}' VALID UNTIL
+  // '{{expiration}}';
+  // GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO "{{name}}";
+  // GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "{{name}}";
+  // GRANT ALL ON SCHEMA public TO "{{name}}";
+  creation_statements = [
+    "CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}';",
+    "GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"{{name}}\";",
+  ]
+}

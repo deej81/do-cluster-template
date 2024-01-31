@@ -1,0 +1,9 @@
+---
+- name: Tailscale Configure
+  gather_facts: true
+  hosts: all
+  roles:
+    - role: artis3n.tailscale
+      vars:
+        tailscale_up_skip: true
+

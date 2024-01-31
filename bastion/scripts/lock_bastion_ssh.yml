@@ -1,0 +1,24 @@
+---
+- name: Configure SSH to listen on Tailscale IP only
+  hosts: all
+  become: true
+  tasks:
+    - name: Deny all incoming SSH traffic by default
+      community.general.ufw:
+        rule: deny
+        port: '22'
+        proto: tcp
+
+    - name: Allow SSH only on the Tailscale interface
+      community.general.ufw:
+        rule: allow
+        interface: tailscale0  # Replace with your Tailscale interface name if different
+        to_port: 22
+        proto: tcp
+        direction: in
+
+    - name: Enable UFW
+      community.general.ufw:
+        state: enabled
+        default: deny
+        direction: incoming

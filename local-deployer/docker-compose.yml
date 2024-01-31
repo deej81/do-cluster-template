@@ -1,0 +1,22 @@
+version: '3'
+services:
+  local-deployer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ../secrets/.env
+    environment:
+      - SSH_AUTH_SOCK=/ssh-agent
+    ports:
+      - 8500:8500
+      - 8200:8200
+      - 4646:4646
+      - 8081:8081
+    stdin_open: true
+    tty: true
+    volumes:
+      - ..:/deployer
+      - ../secrets:/secrets
+      - $SSH_AUTH_SOCK:/ssh-agent
+    #command: /bin/bash
