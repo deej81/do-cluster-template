@@ -1,0 +1,13 @@
+
+# Place your custom A records here
+
+# for example for a private ingress a record:
+
+{% for domain in top_level_domains['tlds'] %}
+# resource "digitalocean_record" "example" {
+#     domain = var.{{ domain.replace('.', '_dot_') }}_id
+#     type   = "A"
+#     name   = "example"
+#     value  = var.private_ingress_ip
+# }
+{% endfor %}

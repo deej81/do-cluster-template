@@ -44,9 +44,4 @@ module "cluster_infrastructure" {
   ssh_keys = concat([for key in digitalocean_ssh_key.user_key : key.fingerprint])
 }
 
-module "custom_dns" {
-  source = "./jobs/dns"
-  domain_id = digitalocean_domain.example_dot_com.id
-  private_ingress_ip = module.cluster_infrastructure.tailscale_ip_address
-  public_ingress_ip = "none"
-}
+

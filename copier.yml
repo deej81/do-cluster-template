@@ -12,5 +12,13 @@ number_server_droplets:
     default: 1
     choices: [ 1, 3, 5]
 
+top_level_domains:
+  type: yaml
+  help: Please enter the top-level domains in YAML format.
+  default: |
+    tlds:
+      - domain1.com
+      - domain2.com
+
 _skip_if_exists:
     - ./jobs/dns/custom-dns.tf

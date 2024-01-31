@@ -9,6 +9,14 @@ terraform {
   }
 }
 
+{% for domain in top_level_domains['tlds'] %}
+variable "{{ domain.replace('.', '_dot_') }}_id" {
+  description = "{{ domain }} DigitalOcean domain ID"
+  type        = string
+}
+{% endfor %}
+
+
 variable "domain_id" {
   description = "DigitalOcean domain ID"
   type        = string
