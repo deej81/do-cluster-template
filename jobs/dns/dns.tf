@@ -1,3 +1,4 @@
+# auto generated file. DO NOT EDIT
 
 terraform {
   required_providers {
@@ -6,13 +7,6 @@ terraform {
       version = "~> 2.0"
     }
   }
-}
-
-resource "digitalocean_record" "example" {
-    domain = var.domain_id
-    type   = "A"
-    name   = "example"
-    value  = var.private_ingress_ip
 }
 
 variable "domain_id" {

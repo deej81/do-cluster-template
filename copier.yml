@@ -10,4 +10,7 @@ number_server_droplets:
     type: int
     help: How many server droplets do you want to create?
     default: 1
-    choices: [ 1, 3, 5] 
+    choices: [ 1, 3, 5]
+
+_skip_if_exists:
+    - ./jobs/dns/custom-dns.tf
