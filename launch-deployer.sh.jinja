@@ -1,7 +1,7 @@
 
 # Directory and file paths
-key_dir="$HOME/.dev"
-key_file="$key_dir/dev"
+key_dir="$HOME/.do-cluster-template"
+key_file="$key_dir/{{project_name}}.key"
 secrets_folder="./secrets"
 encrypted_secrets="./secrets.tar.gz.age"
 
@@ -14,21 +14,21 @@ check_generate_key() {
         exit 1
     fi
 
-    # Check if .wtc-dev directory exists, create if not
+    # Check if $key_dir directory exists, create if not
     if [ ! -d "$key_dir" ]; then
         mkdir "$key_dir"
-        echo "Directory .dev created."
+        echo "Directory $key_dir created."
     fi
 
-    # Check if dev key exists, create if not
+    # Check if $key_file exists, create if not
     if [ ! -f "$key_file" ]; then
         # Placeholder for key generation command
-        echo "Generating new dev key..."
+        echo "Generating new key..."
         age-keygen -o $key_file  
         chmod 600 "$key_file"  # Set permissions to read/write for owner only
-        echo "dev key created and permissions set."
+        echo "$key_file created and permissions set."
     else
-        echo "dev key already exists."
+        echo "$key_file already exists."
     fi
 }
 
