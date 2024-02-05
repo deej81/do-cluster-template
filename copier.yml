@@ -20,5 +20,10 @@ top_level_domains:
       - domain1.com
       - domain2.com
 
+provision_postgres_cluster:
+  type: bool
+  help: Do you want to provision a managed postgres cluster?
+  default: true
+
 _skip_if_exists:
     - ./jobs/dns/custom-dns.tf

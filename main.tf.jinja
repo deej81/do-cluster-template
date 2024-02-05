@@ -7,19 +7,7 @@ terraform {
   }
 }
 
-resource "digitalocean_project" "project" {
-  name = "{{project_name}}"
-  resources = concat(
-    [
-      module.bastion_server.bastion_urn,
-      {% for domain in top_level_domains['tlds'] %}
-      digitalocean_domain.{{ domain.replace('.', '_dot_') }}.urn,
-      {% endfor %}
-      module.cluster_infrastructure.postgres_cluster_urn,
-    ],
-    module.cluster_infrastructure.cluster_droplet_urns,
-  )
-}
+
 
 # Configure the DigitalOcean Provider
 provider "digitalocean" {

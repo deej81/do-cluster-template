@@ -1,3 +1,5 @@
+{% if(provision_postgres_cluster)%}
+
 resource "digitalocean_database_cluster" "postgres-cluster" {
   name       = "postgres-cluster"
   engine     = "pg"
@@ -21,3 +23,5 @@ resource "digitalocean_database_firewall" "postgres-cluster-firewall" {
     value = var.vpc_config.ip_range
   }
 }
+
+{% endif %}

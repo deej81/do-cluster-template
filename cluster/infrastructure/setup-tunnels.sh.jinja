@@ -53,6 +53,7 @@ create_tunnel 8500 $SERVER_DROPLET_IP 8500 $BASTION_ADDRESS "Consul"
 create_tunnel 8200 $SERVER_DROPLET_IP 8200 $BASTION_ADDRESS "Vault"
 create_tunnel 4646 $SERVER_DROPLET_IP 4646 $BASTION_ADDRESS "Nomad"
 create_tunnel 8081 $INGRESS_IP 8081 $BASTION_ADDRESS "Traefik API"
+{% if(provision_postgres_cluster)%}
 # TODO pull this address from terraform
 create_tunnel 25060 private-postgres-cluster-do-user-12450342-0.c.db.ondigitalocean.com 25060 $BASTION_ADDRESS "Postgres"
-
+{% endif %}
