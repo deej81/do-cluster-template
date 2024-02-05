@@ -12,6 +12,17 @@ number_server_droplets:
     default: 1
     choices: [ 1, 3, 5]
 
+number_client_droplets:
+    type: int
+    help: How many server droplets do you want to create?
+    default: 2
+
+client_droplet_size:
+    type: str
+    help: What size do you want the client droplets to be?
+    default: s-1vcpu-1gb
+    choices: [ s-1vcpu-1gb, s-1vcpu-2gb, s-2vcpu-2gb, s-2vcpu-4gb, s-4vcpu-8gb, s-8vcpu-16gb, s-16vcpu-32gb, s-32vcpu-64gb, s-48vcpu-96gb, s-64vcpu-128gb]
+
 top_level_domains:
   type: yaml
   help: Please enter the top-level domains in YAML format.

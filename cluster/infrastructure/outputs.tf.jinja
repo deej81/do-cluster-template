@@ -20,6 +20,7 @@ output "ingress_droplet_ip" {
   value = digitalocean_droplet.ingress_client.ipv4_address_private
 }
 
+{% if(provision_postgres_cluster)%}
 output "postgres_cluster_ip" {
   value = digitalocean_database_cluster.postgres-cluster.private_host
 }
@@ -49,3 +50,5 @@ output "postgres_cluster_private_uri" {
 output "postgres_cluster_urn" {
   value = digitalocean_database_cluster.postgres-cluster.urn
 }
+
+{% endif %}
