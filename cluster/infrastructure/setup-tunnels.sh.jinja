@@ -1,0 +1,58 @@
+#!/bin/bash
+
+SERVER_DROPLET_IPS=$(cd ../.. && terraform output server_droplet_ips)
+BASTION_ADDRESS=bastion.{{top_level_domains['tlds'][0]}}
+SERVER_DROPLET_IP=(${SERVER_DROPLET_IPS[0]})
+SERVER_DROPLET_IP=$(echo "$SERVER_DROPLET_IP" | tr -d '"')
+
+INGRESS_IP=$(cd ../.. && terraform output ingres_private_ip)
+INGRESS_IP=$(echo "$INGRESS_IP" | tr -d '"')
+
+echo "server ip found: " $SERVER_DROPLET_IP
+echo "bastion server address: " $BASTION_ADDRESS
+echo "ingress ip: " $INGRESS_IP
+
+# Function to check if a port is already in use
+is_port_in_use() {
+    netstat -tuln | grep ":$1" &> /dev/null
+    if [ $? -eq 0 ]; then
+        return 0 # port is in use
+    else
+        return 1 # port is not in use
+    fi
+}
+
+# Function to create an SSH tunnel
+create_tunnel() {
+    local port=$1
+    local remote_ip=$2
+    local remote_port=$3
+    local bastion_address=$4
+    local name=$5
+
+    echo "Creating tunnel to $name on port $port"
+
+    if is_port_in_use $port; then
+        echo "Tunnel on port $port already exists."
+        echo "Access $name at http://localhost:$port"
+        return 0
+    else
+        ssh -4 -f -N -g -o StrictHostKeyChecking=no -L $port:$remote_ip:$remote_port root@$BASTION_ADDRESS
+        if [ $? -ne 0 ]; then
+            echo "Failed to create tunnel to $name on port $port"
+            exit 1
+        else
+            echo "Tunnel to $name on port $port created successfully"
+            echo "Access $name at http://localhost:$port"
+            return 0
+        fi
+    fi
+}
+
+create_tunnel 8500 $SERVER_DROPLET_IP 8500 $BASTION_ADDRESS "Consul"
+create_tunnel 8200 $SERVER_DROPLET_IP 8200 $BASTION_ADDRESS "Vault"
+create_tunnel 4646 $SERVER_DROPLET_IP 4646 $BASTION_ADDRESS "Nomad"
+create_tunnel 8081 $INGRESS_IP 8081 $BASTION_ADDRESS "Traefik API"
+# TODO pull this address from terraform
+create_tunnel 25060 private-postgres-cluster-do-user-12450342-0.c.db.ondigitalocean.com 25060 $BASTION_ADDRESS "Postgres"
+

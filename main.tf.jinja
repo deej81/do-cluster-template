@@ -28,7 +28,7 @@ module "bastion_server" {
   source = "./bastion"
   do_token = var.do_token
   tailscale_key = var.tailscale_key
-  domain_id = digitalocean_domain.example_dot_com.id
+  domain_id = {{ top_level_domains['tlds'][0].replace('.', '_dot_') }}.id
   vpc_id = digitalocean_vpc.cluster.id
   ssh_keys = concat([for key in digitalocean_ssh_key.user_key : key.fingerprint])
 }
