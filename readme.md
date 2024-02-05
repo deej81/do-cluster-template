@@ -24,7 +24,7 @@ Clone the repo to your machine and make sure you have the prequisites installed 
 ```bash
 ./launch-deployer.sh
 ```
-This script will initalise an age keypair and then launch a docker container with all the tools you need. It will also mount the current directory into the container so you can edit the terraform files on your machine and run terraform inside the container.
+This script will initalise an age keypair and then launch a docker container with all the tools you need. It will also mount the current directory into the container so you can edit the terraform files on your machine and run terraform inside the container. You will be prompted to enter your tailscale and digital ocean tokens as well as your github username. These will be stored in the secrets folder and encrypted with age.
 
 Once the container is running:
 
