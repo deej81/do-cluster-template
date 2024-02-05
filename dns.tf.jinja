@@ -8,7 +8,7 @@ resource "digitalocean_domain" "{{ domain.replace('.', '_dot_') }}" {
 module "custom_dns" {
   source = "./jobs/dns"
   {% for domain in top_level_domains['tlds'] %}
-  domain_id = digitalocean_domain.{{ domain.replace('.', '_dot_') }}.id
+  {{ domain.replace('.', '_dot_') }}_id = digitalocean_domain.{{ domain.replace('.', '_dot_') }}.id
   {% endfor %}
   private_ingress_ip = module.cluster_infrastructure.tailscale_ip_address
   public_ingress_ip = "none"

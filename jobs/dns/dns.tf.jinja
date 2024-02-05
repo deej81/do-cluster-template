@@ -16,12 +16,6 @@ variable "{{ domain.replace('.', '_dot_') }}_id" {
 }
 {% endfor %}
 
-
-variable "domain_id" {
-  description = "DigitalOcean domain ID"
-  type        = string
-}
-
 variable "private_ingress_ip" {
   description = "IP address of the private ingress server"
   type        = string
