@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SERVER_DROPLET_IPS=$(cd ../.. && terraform output server_droplet_ips)
-BASTION_ADDRESS=bastion.sunstead.net
+BASTION_ADDRESS=bastion.{{top_level_domains['tlds'][0]}}
 
 
 NOMAD_VAULT_POLICY_NAME=$(terraform -chdir=../vault output nomad_server_policy_name)

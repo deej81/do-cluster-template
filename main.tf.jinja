@@ -32,6 +32,9 @@ module "cluster_infrastructure" {
     ip_range = digitalocean_vpc.cluster.ip_range
   }
   ssh_keys = concat([for key in digitalocean_ssh_key.user_key : key.fingerprint])
+  nomad_server_count = {{ number_server_droplets }}
+  nomad_client_count = {{ number_client_droplets }}
+  client_droplet_size = "{{ client_droplet_size }}"
 }
 
 

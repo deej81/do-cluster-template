@@ -1,3 +1,4 @@
+{% if(provision_postgres_cluster)%}
 resource "vault_database_secret_backend_connection" "postgres" {
   backend           = vault_mount.db.path
   name              = "postgres"
@@ -41,3 +42,4 @@ resource "vault_database_secret_backend_role" "role" {
     "GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"{{name}}\";",
   ]
 }
+{%endif%}

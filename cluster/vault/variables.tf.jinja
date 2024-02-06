@@ -3,6 +3,7 @@ variable "vault_admin_password" {
   default = "admin"
 }
 
+{% if(provision_postgres_cluster)%}
 variable "db_username" {
   type = string
   sensitive = true
@@ -20,3 +21,4 @@ variable "postgres_ip" {
 variable "postgres_port" {
   type = string
 }
+{% endif %}
