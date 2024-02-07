@@ -8,7 +8,7 @@ project_name:
 
 number_server_droplets:
     type: int
-    help: How many server droplets do you want to create?
+    help: How many server droplets do you want to create? (if you update this number you must run make connect-vault again)
     default: 1
     choices: [ 1, 3, 5]
 

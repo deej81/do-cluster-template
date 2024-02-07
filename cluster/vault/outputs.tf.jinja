@@ -6,7 +6,10 @@ output "nomad_server_policy_name" {
   value = vault_policy.nomad_server.name
 }
 
+
+{% if(provision_postgres_cluster)%}
 output "postgres_connection_url" {
   value = vault_database_secret_backend_connection.postgres.postgresql[0]
   sensitive = true
 }
+{% endif %}
