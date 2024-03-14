@@ -6,20 +6,28 @@ project_name:
         project_name must start with a letter, followed one or more letters, digits or dashes all lowercase.
         {% endif %}
 
+provision_network:
+    type: bool
+    help: Do you want to provision a network?
+    default: true
+
 number_server_droplets:
     type: int
     help: How many server droplets do you want to create? (if you update this number you must run make connect-vault again)
     default: 1
+    when: provision_network
     choices: [ 1, 3, 5]
 
 number_client_droplets:
     type: int
+    when: provision_network
     help: How many client droplets do you want to create?
     default: 2
 
 client_droplet_size:
     type: str
     help: What size do you want the client droplets to be?
+    when: provision_network
     default: s-1vcpu-1gb
     choices: [ s-1vcpu-1gb, s-1vcpu-2gb, s-2vcpu-2gb, s-2vcpu-4gb, s-4vcpu-8gb, s-8vcpu-16gb, s-16vcpu-32gb, s-32vcpu-64gb, s-48vcpu-96gb, s-64vcpu-128gb]
 
@@ -34,6 +42,7 @@ top_level_domains:
 provision_postgres_cluster:
   type: bool
   help: Do you want to provision a managed postgres cluster?
+  when: provision_network
   default: true
 
 _skip_if_exists:

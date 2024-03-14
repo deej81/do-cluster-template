@@ -7,12 +7,11 @@ terraform {
   }
 }
 
-
-
 # Configure the DigitalOcean Provider
 provider "digitalocean" {
   token = var.do_token
 }
+{% if provision_network %}
 
 module "bastion_server" {
   source = "./bastion"
@@ -36,5 +35,7 @@ module "cluster_infrastructure" {
   nomad_clients_count = {{ number_client_droplets }}
   client_droplet_size = "{{ client_droplet_size }}"
 }
+
+{% endif %}
 
 
