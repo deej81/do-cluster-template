@@ -16,6 +16,7 @@ variable "{{ domain.replace('.', '_dot_') }}_id" {
 }
 {% endfor %}
 
+{% if provision_network %}
 variable "private_ingress_ip" {
   description = "IP address of the private ingress server"
   type        = string
@@ -25,3 +26,4 @@ variable "public_ingress_ip" {
   description = "IP address of the public ingress server"
   type        = string
 }
+{% endif %}

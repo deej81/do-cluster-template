@@ -10,6 +10,9 @@ module "custom_dns" {
   {% for domain in top_level_domains['tlds'] %}
   {{ domain.replace('.', '_dot_') }}_id = digitalocean_domain.{{ domain.replace('.', '_dot_') }}.id
   {% endfor %}
+
+  {% if provision_network %}
   private_ingress_ip = module.cluster_infrastructure.tailscale_ip_address
   public_ingress_ip = "none"
+  {% endif %}
 }

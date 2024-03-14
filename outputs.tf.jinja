@@ -1,3 +1,4 @@
+{% if provision_network %}
 output "server_droplet_ips" {
   value = module.cluster_infrastructure.server_droplet_ips
 }
@@ -5,6 +6,11 @@ output "server_droplet_ips" {
 output "ingres_private_ip" {
   value = module.cluster_infrastructure.ingress_droplet_ip
 }
+{% endif %}
+
+
+
+
 {% if(provision_postgres_cluster)%}
 output "postgres_cluster_ip" {
   value = module.cluster_infrastructure.postgres_cluster_ip

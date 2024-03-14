@@ -2,14 +2,21 @@ resource "digitalocean_project" "project" {
   name = "{{project_name}}"
   resources = concat(
     [
+      {% if provision_network %}
       module.bastion_server.bastion_urn,
+      {% endif %}
+      
+      
       {% for domain in top_level_domains['tlds'] %}
       digitalocean_domain.{{ domain.replace('.', '_dot_') }}.urn,
       {% endfor %}
+      
       {% if(provision_postgres_cluster)%}
       module.cluster_infrastructure.postgres_cluster_urn,
       {% endif %}
     ],
+    {% if provision_network %}
     module.cluster_infrastructure.cluster_droplet_urns,
+    {% endif %}
   )
 }
